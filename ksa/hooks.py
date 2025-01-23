@@ -106,21 +106,48 @@ after_install = "ksa.saudi_arabia.setup.setup"
 # Hook on document methods and events
 
 doc_events = {
-	"Company": {
-                "on_trash": ["ksa.saudi_arabia.utils.delete_vat_settings_for_company"],
-                "after_insert": ["ksa.saudi_arabia.wizard.operations.setup_tax_templates.setup_templates",
-                              "ksa.saudi_arabia.setup.create_company_settings"]
-        },
-        "Sales Invoice": {
-		"on_submit": [
-                        "ksa.saudi_arabia.utils.create_qr_code",
+	"Company": 
+    {
+        "on_trash":
+        [
+            "ksa.saudi_arabia.utils.delete_vat_settings_for_company"
+        ],
+        "after_insert": 
+        [
+            "ksa.saudi_arabia.wizard.operations.setup_tax_templates.setup_templates",
+            "ksa.saudi_arabia.setup.create_company_settings"
+        ]
+    },
+    "Sales Invoice": 
+    {
+		"on_submit":
+        [
+            "ksa.saudi_arabia.utils.create_qr_code",
 		],
-		"on_cancel": [
-			"ksa.saudi_arabia.utils.delete_qr_code_file"
-		]
+		"on_cancel": 
+        [
+            "ksa.saudi_arabia.wizard.operations.on_cancel_si_pi.prevent_cancel_if_qr"
+			# "ksa.saudi_arabia.utils.delete_qr_code_file"
+		],
+        "on_update_after_submit":
+        [
+            "ksa.saudi_arabia.wizard.operations.on_cancel_si_pi.prevent_cancel_if_qr"
+        ]
 	},
-        "POS Invoice": {"on_submit": ["ksa.saudi_arabia.utils.create_qr_code"]},
-
+    "POS Invoice": 
+    {
+        "on_submit": 
+        [
+            "ksa.saudi_arabia.utils.create_qr_code"
+        ]
+    },
+    # "Purchase Invoice": 
+    # {
+    #     "on_cancel": 
+    #     [
+    #         "ksa.saudi_arabia.wizard.operations.on_cancel_si_pi.prevent_cancel_if_qr"
+    #     ]
+    # }
 }
 
 # Scheduled Tasks
